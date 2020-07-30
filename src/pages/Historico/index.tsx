@@ -24,7 +24,7 @@ interface Data {
     temperatura:Number
 }
 
-const Historico: React.FC = ({route}) => {
+const Historico: React.FC = ({route}:any) => {
   const navigation = useNavigation()
 
   const {id,nome} = route.params
@@ -62,15 +62,20 @@ const Historico: React.FC = ({route}) => {
       const dia = split.split("-")
       const selectday = `${dia[0]}${dia[1]}${dia[2]}`
   
-      api.get(`formtoday/${id}?data=${selectday}`).then(response => {
+      api.get(`formtoday/${id}?data=${selectday}`)
+      .then((response:any) => {
         setData(response.data)
-      }).catch(()=>{
+      })
+      .catch(()=>{
         alert("Formulario não encontrado")
       })
     }
     else{
-      api.get(`formtoday/${id}?data=${dia}`).then(response => {
+      api.get(`formtoday/${id}?data=${dia}`)
+      .then((response:any) => {
         setData(response.data)
+      }).catch(()=>{
+        console.log("Formulário não encontrado")
       })
     }
   },[today,date,dia])
@@ -159,6 +164,7 @@ const Historico: React.FC = ({route}) => {
             }
           }}
           onDateChange={(date:String) => {setDate(String(date))}}
+          
         />
       </Container>
       <ViewMenu>

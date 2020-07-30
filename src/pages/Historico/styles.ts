@@ -5,12 +5,12 @@ export const Container = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom:80px
+  margin-bottom:100px
 `;
 
 export const Resposta = styled.Text`
   font-size: 18px;
   font-family: Roboto_500Medium;
   text-align:center;
-  margin-bottom: 5px
+  margin-bottom: 3px
 `;
