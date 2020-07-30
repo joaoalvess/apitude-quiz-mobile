@@ -18,11 +18,11 @@ const Login: React.FC = () => {
 
   async function handleNavigateToDashboard() {
     await api.get(`userauth?email=${selectEmail}&senha=${selectSenha}`)
-    .then((response) => {
-      setUser(response.data)
+    .then((response:any) => {
+      console.log(response.data)
       navigation.navigate('Dashboard', {
         id: response.data.id,
-        nome: response.data.nome
+        nome: response.data.nome,
       })
     })
     .catch(() => {
@@ -33,7 +33,7 @@ const Login: React.FC = () => {
   return (
     <Container>
       <ImageLogo resizeMode="contain" source={Logo} />
-      <Title>Questionario Diario de Sintomas</Title>
+      <Title>Questionário Diário de Sintomas</Title>
       <Form enabled={Platform.OS === 'ios'} behavior="padding">
         <Label>Email</Label>
         <Input           
@@ -42,7 +42,7 @@ const Login: React.FC = () => {
           autoCapitalize="none"
           autoCorrect={false}
           value={String(selectEmail)}
-          onChangeText={value => setSelectEmail(String(value))}
+          onChangeText={(value:String) => setSelectEmail(value)}
         />
         <Label>Senha</Label>
         <Input           
@@ -51,7 +51,7 @@ const Login: React.FC = () => {
           autoCorrect={false}
           secureTextEntry={true}
           value={String(selectSenha)}
-          onChangeText={value => setSelectSenha(String(value))}
+          onChangeText={(value:String) => setSelectSenha(value)}
         />
       </Form>
       <RectButton 
