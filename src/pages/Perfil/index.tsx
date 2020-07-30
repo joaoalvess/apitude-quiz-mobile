@@ -9,7 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 
-const Perfil: React.FC = ({route}) => {
+const Perfil: React.FC = ({route}:any) => {
   const navigation = useNavigation()
 
   const {id,nome} = route.params

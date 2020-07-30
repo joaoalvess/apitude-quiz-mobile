@@ -15,7 +15,7 @@ import { Chevron } from 'react-native-shapes'
 import { AntDesign } from '@expo/vector-icons';
 import { AntDesign as ReturnIcon } from '@expo/vector-icons'
 
-const Quiz: React.FC = ({route}) => {
+const Quiz: React.FC = ({route}:any) => {
   const navigation = useNavigation()
   
   const {id,nome} = route.params
@@ -33,8 +33,6 @@ const Quiz: React.FC = ({route}) => {
   const [tempAlta, setTempAlta] = useState<Boolean>(false);
   const [tempMuitoAlta, setTempMuitoAlta] = useState<Boolean>(false);
   const [estaApto, setEstaApto] = useState<Boolean>(true);
-
-  const [finish, setFinish] = useState(false)
 
   var date = new Date().getDate(); //Current Date
   var month = new Date().getMonth() + 1; //Current Month
@@ -105,24 +103,25 @@ const Quiz: React.FC = ({route}) => {
     const apto = estaApto
 
     const formData = {
-      forms:{
-        data,
-        contato_infectado,
-        febre,
-        calafrio,
-        falta_ar,
-        tosse,
-        temperatura,
-        apto
-      }
+      data,
+      contato_infectado,
+      febre,
+      calafrio,
+      falta_ar,
+      tosse,
+      temperatura,
+      apto
     }
 
-    await api.post(`createform/${currentUser}`, formData).then(()=>{
-      alert("Questionario enviado")
+    await api.post(`createform/${currentUser}`, formData).then(() => {
+      alert("Formulario enviado")
       navigation.navigate('Dashboard', {
         finalized: true,
         estaApto: estaApto
       })
+    })
+    .catch(() => {
+      console.log("error")
     })
   }
 
