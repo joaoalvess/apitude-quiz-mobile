@@ -12,8 +12,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 
-const Dashboard: React.FC = ({route}) => {
-  const [data, setData] = useState(' ')
+const Dashboard: React.FC = ({route}:any) => {
+  const [data, setData] = useState('')
   const [quizToday, setQuizToday] = useState(false)
   const [apiRes, setApiRes] = useState([])
   const [apto, setApto] = useState()
@@ -21,7 +21,7 @@ const Dashboard: React.FC = ({route}) => {
   const [realizou, setRealizou] = useState('')
   const [preButton, setPreButton] = useState('')
   const [buttonText, setButtonText] = useState('')
-
+  
   const {id,nome} = route.params
   const {finalized, estaApto} = route.params
 
@@ -31,13 +31,17 @@ const Dashboard: React.FC = ({route}) => {
 
   useEffect(() => {
     setData(`${date}${month}${year}`)
-  },[])
+  },[date])
 
   useEffect(() => {
-    if(data != ' ') {
-      api.get(`formtoday/${id}?data=${data}`).then(response => {
+    if(data != '') {
+      api.get(`formtoday/${id}?data=${data}`)
+      .then((response:any) => {
         setApiRes(response.data)
         setApto(response.data.apto)
+      })
+      .catch(()=>{
+        console.log('erro')
       })
     }
   },[data,id,estaApto])
@@ -54,20 +58,20 @@ const Dashboard: React.FC = ({route}) => {
   useEffect(() => {
     if(finalized == true || quizToday == true) {
       if(estaApto == true || apto == true){
-        setPreButton("Você esta apto ao trabalho. Não esqueça de realizar o questionario amanha!")
+        setPreButton("Você esta apto ao trabalho. Não esqueça de realizar o questionário amanha!")
       }
       if(estaApto == false || apto == false){
         setPreButton("Você não esta apto ao trabalho.")
       }
-      setRealizou("Você ja realizou seu questionario de sintomas da covid-19 hoje.")
-      setButtonText("Historico")
+      setRealizou("Você já realizou seu questionário de sintomas da covid-19 hoje.")
+      setButtonText("Histórico")
     }
     else{
-      setRealizou("Você ainda não realizou seu questionario de sintomas da covid-19 hoje.")
-      setPreButton("Precione o botão abaixo para realiza-lo.")
+      setRealizou("Você ainda não realizou seu questionário de sintomas da covid-19 hoje.")
+      setPreButton("Precione o botão abaixo para realizá-lo.")
       setButtonText("Questionario")
     }
-  },[finalized,quizToday])
+  },[finalized,quizToday,data])
 
   const navigation = useNavigation()
 
