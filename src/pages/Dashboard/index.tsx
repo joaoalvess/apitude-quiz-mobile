@@ -14,9 +14,16 @@ import { RectButton } from 'react-native-gesture-handler';
 
 const Dashboard: React.FC = ({route}:any) => {
   const [data, setData] = useState('')
+  const [userDate, setUserDate] = useState('')
   const [quizToday, setQuizToday] = useState(false)
   const [apiRes, setApiRes] = useState([])
   const [apto, setApto] = useState()
+  const [formId, setFormId] = useState()
+
+  const [temp, setTemp] = useState<number>()
+  const [nextDay, setNextDay] = useState('')
+  const [apiNextDay, setApiNextDay] = useState([])
+  const [quizNextDay, setQuizNextDay] = useState(false)
 
   const [realizou, setRealizou] = useState('')
   const [preButton, setPreButton] = useState('')
@@ -24,13 +31,33 @@ const Dashboard: React.FC = ({route}:any) => {
   
   const {id,nome} = route.params
   const {finalized, estaApto} = route.params
+  const { addTemp } = route.params
+  const { nextFinalized } = route.params
 
-  var date = new Date().getDate(); //Current Date
-  var month = new Date().getMonth() + 1; //Current Month
+  var hours = new Date().getHours();
+  var date = new Date().getDate();
+  var month = new Date().getMonth() + 1;
   var year = new Date().getFullYear();
+
+  function diasNoMesSearch(mes: any, ano:any) {
+    let data = new Date(ano, mes, 0);
+    return data.getDate();
+  }
+
+  let mesAtual = new Date().getMonth()+1;
+  let anoAtual = new Date().getFullYear();
+  let diasNoMes = diasNoMesSearch(mesAtual, anoAtual);
+  let diaAtual = new Date().getDate();
+  if (diaAtual === diasNoMes){  
+    diaAtual = 1;
+  }else{
+    diaAtual += +1;
+  }
 
   useEffect(() => {
     setData(`${date}${month}${year}`)
+    setUserDate(`${date}/${month}/${year}`)
+    setNextDay(`${diaAtual}${mesAtual}${anoAtual}`)
   },[date])
 
   useEffect(() => {
@@ -38,13 +65,27 @@ const Dashboard: React.FC = ({route}:any) => {
       api.get(`formtoday/${id}?data=${data}`)
       .then((response:any) => {
         setApiRes(response.data)
+        setFormId(response.data.id)
+        setTemp(response.data.temperatura)
         setApto(response.data.apto)
       })
       .catch(()=>{
         console.log('erro')
       })
     }
-  },[data,id,estaApto])
+  },[data,id,estaApto,addTemp])
+
+  useEffect(() => {
+    if(nextDay != '') {
+      api.get(`formtoday/${id}?data=${nextDay}`)
+      .then((response:any) => {
+        setApiNextDay(response.data)
+      })
+      .catch(()=>{
+        console.log('erro')
+      })
+    }
+  },[nextDay,id])
 
   useEffect(() => {
     if(apiRes == null || apiRes.length == 0){
@@ -56,31 +97,66 @@ const Dashboard: React.FC = ({route}:any) => {
   },[apiRes,finalized])
 
   useEffect(() => {
-    if(finalized == true || quizToday == true) {
-      if(estaApto == true || apto == true){
-        setPreButton("Você esta apto ao trabalho. Não esqueça de realizar o questionário amanha!")
-      }
-      if(estaApto == false || apto == false){
-        setPreButton("Você não esta apto ao trabalho.")
-      }
-      setRealizou("Você já realizou seu questionário de sintomas da covid-19 hoje.")
-      setButtonText("Histórico")
+    if(apiNextDay == null || apiNextDay.length == 0){
+      setQuizNextDay(false)
     }
     else{
-      setRealizou("Você ainda não realizou seu questionário de sintomas da covid-19 hoje.")
-      setPreButton("Precione o botão abaixo para realizá-lo.")
-      setButtonText("Questionario")
+      setQuizNextDay(true)
+    }
+  },[apiNextDay])
+
+  useEffect(() => {
+    if(finalized == true || quizToday == true) {
+      if(nextFinalized == true || quizNextDay == true) {
+        
+      }
+      else {
+        setRealizou(`Você já realizou seu questionário de sintomas da covid-19 do dia ${userDate}`)
+      }
+    }
+    else{
+      setRealizou(`Você ainda não realizou seu questionário de sintomas da covid-19 do dia ${userDate}`)
     }
   },[finalized,quizToday,data])
+
+  useEffect(() => {
+    if(finalized == true || quizToday == true) {
+      if(temp != 30.2 || addTemp == true) {
+        setButtonText('Histórico')
+        if(estaApto == true || apto == true) {
+          return setPreButton("Você esta apto ao trabalho. Não esqueça de realizar o questionário amanha!")
+        }
+        if(estaApto == false || apto == false){
+          return setPreButton("Você não esta apto ao trabalho. Comunique ao seu gestor!")
+        }
+      }
+      if(temp == 30.2) {
+        setButtonText('Adicionar Temperatura')
+        setPreButton(`Você pode adicionar a sua temperatura até as 15:00 do dia ${userDate}`)
+      }
+    }
+    else {
+      setButtonText('Questionário')
+      setPreButton("Você tem até as 15:00 horas para realiza-lo. Só será permitida a entrada após o término do questionário!")
+    }
+  },[finalized,quizToday,hours,estaApto,apto,temp,addTemp])
 
   const navigation = useNavigation()
 
   async function handleNavigateToQuiz() {
     if(finalized == true || quizToday == true) {
-      navigation.navigate('Historico', {
-        id: id,
-        nome: nome
-      })
+      if(temp != 30.2 || addTemp == true) {
+        navigation.navigate('QuizNextDay', {
+          id: id,
+          nome: nome
+        })
+      }
+      if(temp == 30.2) {
+        navigation.navigate('Temperatura', {
+          id: formId,
+          nome: nome
+        })
+      }
     }
     else{
       navigation.navigate('Quiz', {

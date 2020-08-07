@@ -4,18 +4,41 @@ export const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  margin-top: 20px
 `;
 
 export const ImageLogo = styled.Image`
   width: 250px;
-  height: 300px;
-  top: -50px
+  margin-bottom: 50px
+`;
+
+export const Photo = styled.Image`
+  border-radius: 150px;
+  width: 200px;
+  height: 200px;
 `;
 
 export const Title = styled.Text`
-  font-size: 30px;
+  font-size: 32px;
   text-align: center;
   font-family: Roboto_500Medium;
-  margin-bottom: 50px;
-  margin-top: -60px
+  margin: 10px 0 15px 0
+`;
+
+export const SubTitle = styled.Text`
+  font-size: 20px;
+  font-family: Roboto_400Regular;
+  margin: 10px 0 15px 0;
+`;
+
+export const Email = styled.Text`
+  font-size: 26px;
+  font-family: Roboto_400Regular;
+  margin: 10px 0 15px 0;
+`;
+
+export const Matricula = styled.Text`
+  font-size: 20px;
+  font-family: Roboto_400Regular;
+  margin: 10px 0 40px 0;
 `;

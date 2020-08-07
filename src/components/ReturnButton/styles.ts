@@ -8,6 +8,6 @@ export const returnButton = StyleSheet.create({
     paddingTop: 15 + Constants.statusBarHeight,
     alignSelf: "stretch",
     position: "absolute",
-    top: 5,
+    top: 30,
   }
 })

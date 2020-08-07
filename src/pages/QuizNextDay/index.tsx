@@ -16,7 +16,7 @@ import { Chevron } from 'react-native-shapes'
 import { AntDesign } from '@expo/vector-icons';
 import { AntDesign as ReturnIcon } from '@expo/vector-icons'
 
-const Quiz: React.FC = ({route}:any) => {
+const QuizNextDay: React.FC = ({route}:any) => {
   const navigation = useNavigation()
 
   const {id,nome} = route.params
@@ -24,7 +24,6 @@ const Quiz: React.FC = ({route}:any) => {
   const [loading, setLoading] = useState<Boolean>(true)
   
   const [day, setDay] = useState("")
-  const [severDate, setSeverDate] = useState("")
 
   const [selectInfectado, setSelectInfectado] = useState<Boolean>(false);
   const [selectContato, setSelectContato] = useState<Boolean>(false);
@@ -42,9 +41,22 @@ const Quiz: React.FC = ({route}:any) => {
   const [estaApto, setEstaApto] = useState<Boolean>(true);
   const [count, setCount] = useState<number>(0);
 
-  var date = new Date().getDate(); //Current Date
-  var month = new Date().getMonth() + 1; //Current Month
-  var year = new Date().getFullYear();
+  const [nextDay, setNextDay] = useState('')
+
+  function diasNoMesSearch(mes: any, ano:any) {
+    let data = new Date(ano, mes, 0);
+    return data.getDate();
+  }
+
+  let mesAtual = new Date().getMonth()+1;
+  let anoAtual = new Date().getFullYear();
+  let diasNoMes = diasNoMesSearch(mesAtual, anoAtual);
+  let diaAtual = new Date().getDate();
+  if (diaAtual === diasNoMes){  
+    diaAtual = 1;
+  }else{
+    diaAtual += +1;
+  }
 
   function handleNavigateBack() {
     navigation.goBack()
@@ -67,17 +79,16 @@ const Quiz: React.FC = ({route}:any) => {
     else {
       setEstaApto(true)
     }
-  },[selectInfectado,selectContato,count,day])
+  },[selectContato,count,day])
 
   useEffect(() => {
-    setDay(date + '/' + month + '/' + year)
-    setSeverDate(`${date}${month}${year}`)
-  },[date])
-  
+    setDay(`${diaAtual}/${mesAtual}/${anoAtual}`)
+    setNextDay(`${diaAtual}${mesAtual}${anoAtual}`)
+  },[diaAtual])
 
   async function handleSubmit() {
     const currentUser = id
-    const data = severDate
+    const data = nextDay
     const infectado = selectInfectado
     const contato_infectado = selectContato
     const febre = selectFebre
@@ -122,7 +133,7 @@ const Quiz: React.FC = ({route}:any) => {
         alert("Formulario enviado, tenha um bom dia!")
       }
       navigation.navigate('Dashboard', {
-        finalized: true,
+        nextFinalized: true,
         estaApto: estaApto
       })
     })
@@ -576,4 +587,4 @@ const Quiz: React.FC = ({route}:any) => {
   );
 }
 
-export default Quiz;
+export default QuizNextDay;
