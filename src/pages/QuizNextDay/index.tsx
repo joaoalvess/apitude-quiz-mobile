@@ -100,7 +100,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
     const corpo = selectCorpo
     const olfato = selectOlfato
     const paladar = selectPaladar
-    const apto = estaApto
+    const aptoform = estaApto
     const temperatura = 30.2
 
     const formData = {
@@ -116,20 +116,21 @@ const QuizNextDay: React.FC = ({route}:any) => {
       corpo,
       olfato,
       paladar,
-      apto,
+      aptoform,
+      aptotemp: false,
       temperatura
     }
 
     setLoading(false)
     await api.post(`createform/${currentUser}`, formData).then(() => {
       setLoading(true)
-      if(count <= 2 && count > 0 && apto == true){
+      if(count <= 2 && count > 0 && aptoform == true){
         alert(`Você apresentou ${count} sintoma(s) da covid-19 caso sinta mais algum sintoma avise ao seu gestor!`)
       }
-      if(apto == false){
+      if(aptoform == false){
         alert("Você não esta apto ao trabalho entre em contato com o seu gestor!")
       }
-      if(apto == true && count == 0){
+      if(aptoform == true && count == 0){
         alert("Formulario enviado, tenha um bom dia!")
       }
       navigation.navigate('Dashboard', {

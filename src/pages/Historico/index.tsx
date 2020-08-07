@@ -141,8 +141,8 @@ const Historico: React.FC = ({route}:any) => {
     <>
       <Container>
         <ImageLogo resizeMode="contain" source={Logo} />
-        <Title>Questionário de Sintomas {today}</Title>
-        <Cargo>Colaborador: {nome}</Cargo>
+         { quizToday ? <Title>Questionário de Sintomas {today}</Title> : null}
+         { quizToday ? <Cargo>Colaborador: {nome}</Cargo> : null}
         { quizToday ? <Scroll>
           <Pergunta>1. Você teve Covid-19??</Pergunta>
             {data.infectado ? <Resposta>Sim</Resposta> : <Resposta>Não</Resposta>}

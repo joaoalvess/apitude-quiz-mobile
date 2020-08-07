@@ -106,6 +106,7 @@ const Quiz: React.FC = ({route}:any) => {
       olfato,
       paladar,
       aptoform,
+      aptotemp: false,
       temperatura
     }
 
