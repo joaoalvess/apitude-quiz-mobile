@@ -40,6 +40,9 @@ const Historico: React.FC = ({route}:any) => {
   const [dia, setDia] = useState('');
   const [data, setData] = useState<Data>({} as Data);
 
+  const [apiRes, setApiRes] = useState([]);
+  const [quizToday, setQuizToday] = useState<Boolean>();
+
   const [checkTemp, setCheckTemp] = useState<Boolean>();
   const [tempMuitoAlta, setTempMuitoAlta] = useState<Boolean>();
   const [tempAlta, setTempAlta] = useState<Boolean>();
@@ -80,11 +83,21 @@ const Historico: React.FC = ({route}:any) => {
       api.get(`formtoday/${id}?data=${dia}`)
       .then((response:any) => {
         setData(response.data)
+        setApiRes(response.data)
       }).catch(()=>{
         console.log("Formulário não encontrado")
       })
     }
   },[today,date,dia])
+
+    useEffect(() => {
+    if(apiRes == null || apiRes.length == 0){
+      setQuizToday(false)
+    }
+    else{
+      setQuizToday(true)
+    }
+  },[apiRes,])
 
   function handleNavigateToDashboard() {
     navigation.navigate('Dashboard')
@@ -124,14 +137,13 @@ const Historico: React.FC = ({route}:any) => {
     }
   },[data.temperatura])
 
-
   return (
     <>
       <Container>
         <ImageLogo resizeMode="contain" source={Logo} />
         <Title>Questionário de Sintomas {today}</Title>
         <Cargo>Colaborador: {nome}</Cargo>
-        <Scroll>
+        { quizToday ? <Scroll>
           <Pergunta>1. Você teve Covid-19??</Pergunta>
             {data.infectado ? <Resposta>Sim</Resposta> : <Resposta>Não</Resposta>}
           <Pergunta>
@@ -217,7 +229,7 @@ const Historico: React.FC = ({route}:any) => {
               onDateChange={(date:String) => {setDate(String(date))}}
             />
           </ViewCenter>  
-        </Scroll>
+        </Scroll> : <Title>Você ainda não realizou seu questionário hoje!</Title> }
       </Container>
       <ViewMenu>
       <RectButton

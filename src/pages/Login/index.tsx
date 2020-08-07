@@ -13,7 +13,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
 const Login: React.FC = () => {
-  const [selectEmail, setSelectEmail] = useState<String>('')
+  const [selectCpf, setSelectCpf] = useState<String>('')
   const [selectSenha, setSelectSenha] = useState<String>('')
   const [user, setUser] = useState([])
   const [loading, setLoading] = useState<Boolean>(true)
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
 
   async function handleNavigateToDashboard() {
     setLoading(false)
-    await api.get(`userauth?cpf=${selectEmail}&senha=${selectSenha}`)
+    await api.get(`userauth?cpf=${selectCpf}&senha=${selectSenha}`)
     .then((response:any) => {
       setLoading(true)
       console.log(response.data)
@@ -66,8 +66,8 @@ const Login: React.FC = () => {
           keyboardType="numeric"
           autoCapitalize="none"
           autoCorrect={false}
-          value={String(selectEmail)}
-          onChangeText={(value:String) => setSelectEmail(value)}
+          value={String(selectCpf)}
+          onChangeText={(value:String) => setSelectCpf(value)}
         />
         <Label>Senha</Label>
         <Input           

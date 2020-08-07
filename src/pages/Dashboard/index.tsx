@@ -115,7 +115,7 @@ const Dashboard: React.FC = ({route}:any) => {
       }
     }
     else{
-      setRealizou(`Você ainda não realizou seu questionário de sintomas da covid-19 do dia ${userDate}`)
+        setRealizou(`Você ainda não realizou seu questionário de sintomas da covid-19 do dia ${userDate}`)
     }
   },[finalized,quizToday,data])
 
@@ -132,12 +132,12 @@ const Dashboard: React.FC = ({route}:any) => {
       }
       if(temp == 30.2) {
         setButtonText('Adicionar Temperatura')
-        setPreButton(`Você pode adicionar a sua temperatura até as 15:00 do dia ${userDate}`)
+        setPreButton(`Adicionar a sua temperatura`)
       }
     }
     else {
       setButtonText('Questionário')
-      setPreButton("Você tem até as 15:00 horas para realiza-lo. Só será permitida a entrada após o término do questionário!")
+      setPreButton("Só será permitida a entrada após o término do questionário!")
     }
   },[finalized,quizToday,hours,estaApto,apto,temp,addTemp])
 

@@ -17,7 +17,8 @@ export const ImageLogo = styled.Image`
 export const Title = styled.Text`
   font-family: Roboto_500Medium;
   font-size: 28px;
-  margin-bottom: 50px
+  margin-bottom: 50px;
+  text-align: center;
 `;
 
 export const Subtitle = styled.Text`
