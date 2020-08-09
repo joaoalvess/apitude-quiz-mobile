@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Historico from './pages/Historico'
 import Perfil from './pages/Perfil'
+import Clean from './pages/Clean'
 import Password from './pages/Password'
 import Quiz from './pages/Quiz'
 import QuizNextDay from './pages/QuizNextDay'
@@ -28,6 +29,7 @@ const Routes: React.FC = () => {
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="Historico" component={Historico} />
         <Stack.Screen name="Perfil" component={Perfil} />
+        <Stack.Screen name="Clean" component={Clean} />
         <Stack.Screen name="Password" component={Password} />
         <Stack.Screen name="Quiz" component={Quiz} />
         <Stack.Screen name="QuizNextDay" component={QuizNextDay} />
