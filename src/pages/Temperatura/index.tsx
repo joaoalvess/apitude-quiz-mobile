@@ -17,9 +17,9 @@ const Temperatura: React.FC = ({route}: any) => {
   const [selectTemperatura, setSelectTemperatura] = useState(36.0)
   const [tempAlta, setTempAlta] = useState<Boolean>()
   const [tempMuitoAlta, setTempMuitoAlta] = useState<Boolean>()
+  const [estaApto, setEstaApto] = useState<Boolean>(true)
 
   const [day, setDay] = useState("")
-  const [severDate, setSeverDate] = useState("")
 
   const { nome, id } = route.params
 
@@ -45,28 +45,66 @@ const Temperatura: React.FC = ({route}: any) => {
 
   useEffect(() => {
     setDay(date + '/' + month + '/' + year)
-    setSeverDate(`${date}${month}${year}`)
   },[date])
 
   function handleNavigateBack() {
     navigation.goBack()
   }
 
+  useEffect(() => {
+    if(selectTemperatura >= 37.2) {
+      setTempAlta(true)
+    }
+    if(selectTemperatura < 37.2){
+      setTempAlta(false)
+    }
+  },[selectTemperatura])
+
+  useEffect(() => {
+    if(selectTemperatura >= 37.5) {
+      setTempMuitoAlta(true)
+      setEstaApto(false)
+    }
+    if(selectTemperatura < 37.5){
+      setTempMuitoAlta(false)
+      setEstaApto(true)
+    }
+  },[selectTemperatura])
+
   async function onSubmit() {
     const temperatura = selectTemperatura
+    const apto = estaApto
+
+    const formDataApto = {
+      temperatura,
+      apto
+    }
 
     const formData = {
-      temperatura
+      temperatura,
+      apto
     }
-    
-    await api.put(`formtemp/${id}`, formData).then(() => {
-      alert('Temperatura Adicionada')
-      navigation.navigate('Dashboard', {
-        addTemp: true
+
+    if(estaApto == false){
+      await api.put(`formtemp/${id}`, formDataApto).then(() => {
+        alert('Temperatura Adicionada')
+        navigation.navigate('Dashboard', {
+          addTemp: true
+        })
+      }).catch(() => {
+        alert('ocorreu um erro tente novamente!')
       })
-    }).catch(() => {
-      alert('ocorreu um erro tente novamente!')
-    })
+    }
+    if(estaApto == true) {
+      await api.put(`formtemp/${id}`, formData).then(() => {
+        alert('Temperatura Adicionada')
+        navigation.navigate('Dashboard', {
+          addTemp: true
+        })
+      }).catch(() => {
+        alert('ocorreu um erro tente novamente!')
+      })
+    }
   }
 
   return (
