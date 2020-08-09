@@ -33,6 +33,8 @@ export const Cargo = styled.Text`
   margin-bottom: 10px;
   margin-top: -50px;
   font-family: Roboto_400Regular;
+  text-align: center;
+  width: 300px
 `;
 
 export const ViewTemp = styled.View`

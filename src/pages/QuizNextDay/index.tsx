@@ -62,12 +62,6 @@ const QuizNextDay: React.FC = ({route}:any) => {
     navigation.goBack()
   }
 
-  useEffect(()=>{
-    if(selectFebre == true || selectTosse == true || ar == true || calafrios == true || selectGarganta == true || selectCabeça == true || selectCorpo == true || selectOlfato == true || selectPaladar == true){
-      setCount(count + 1)
-    }
-  },[selectTosse,selectFebre,calafrios,ar,selectGarganta,selectCabeça,selectCorpo,selectPaladar,selectOlfato])
-
   useEffect(() => {
     if(selectContato == true || count > 2 ){
       setEstaApto(false)
@@ -100,7 +94,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
     const corpo = selectCorpo
     const olfato = selectOlfato
     const paladar = selectPaladar
-    const aptoform = estaApto
+    const apto = estaApto
     const temperatura = 30.2
 
     const formData = {
@@ -116,22 +110,21 @@ const QuizNextDay: React.FC = ({route}:any) => {
       corpo,
       olfato,
       paladar,
-      aptoform,
-      aptotemp: false,
+      apto,
       temperatura
     }
 
     setLoading(false)
     await api.post(`createform/${currentUser}`, formData).then(() => {
       setLoading(true)
-      if(count <= 2 && count > 0 && aptoform == true){
+      if(count <= 2 && count > 0 && apto == true){
         alert(`Você apresentou ${count} sintoma(s) da covid-19 caso sinta mais algum sintoma avise ao seu gestor!`)
       }
-      if(aptoform == false){
-        alert("Você não esta apto ao trabalho entre em contato com o seu gestor!")
+      if(apto == false){
+        alert(`Você não esta apto ao trabalho no dia ${day} entre em contato com o seu gestor!`)
       }
-      if(aptoform == true && count == 0){
-        alert("Formulario enviado, tenha um bom dia!")
+      if(apto == true && count == 0){
+        alert(`Formulario enviado do dia ${day} enviado, você só podera adicionar a temperatura no dia ${day}!`)
       }
       navigation.navigate('Dashboard', {
         nextFinalized: true,
@@ -207,7 +200,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setSelectFebre(value)}
+              onValueChange={(value: Boolean) => {setSelectFebre(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -245,7 +245,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setCalafrios(value)}
+              onValueChange={(value: Boolean) => {setCalafrios(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -285,7 +292,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setAr(value)}
+              onValueChange={(value: Boolean) => {setAr(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -323,7 +337,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setSelectCabeça(value)}
+              onValueChange={(value: Boolean) => {setSelectCabeça(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -360,7 +381,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setSelectGarganta(value)}
+              onValueChange={(value: Boolean) => {setSelectGarganta(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -398,7 +426,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setSelectTosse(value)}
+              onValueChange={(value: Boolean) => {setSelectTosse(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -434,7 +469,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setSelectOlfato(value)}
+              onValueChange={(value: Boolean) => {setSelectOlfato(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -472,7 +514,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setselectPaladar(value)}
+              onValueChange={(value: Boolean) => {setselectPaladar(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -508,7 +557,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
                 { label: 'Sim', value: true },
                 { label: 'Não', value: false },
               ]}
-              onValueChange={(value: Boolean) => setSelectCorpo(value)}
+              onValueChange={(value: Boolean) => {setSelectCorpo(value)
+                if(value == true){
+                  setCount(count + 1)
+                }
+                if(value == false) {
+                  setCount(count - 1)
+                }              
+              }}
               style={{
                 inputAndroid: {
                   backgroundColor: 'transparent',
@@ -573,7 +629,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
         }}
       />
       <ViewTemp>
-      { estaApto ? <TemperaturaNormal>Você está apto ao trabalho!</TemperaturaNormal>: <TemperaturaMuitoAlta>Vocé não está apto ao trabalho!</TemperaturaMuitoAlta>}
+      { estaApto ? null: <TemperaturaMuitoAlta>Vocé não está apto ao trabalho!</TemperaturaMuitoAlta>}
       </ViewTemp>
       <ViewCenter>
         <RectButton
