@@ -19,7 +19,7 @@ export const Photo = styled.Image`
 `;
 
 export const Title = styled.Text`
-  font-size: 32px;
+  font-size: 28px;
   text-align: center;
   font-family: Roboto_500Medium;
   margin: 10px 0 15px 0
@@ -32,7 +32,7 @@ export const SubTitle = styled.Text`
 `;
 
 export const Email = styled.Text`
-  font-size: 26px;
+  font-size: 20px;
   font-family: Roboto_400Regular;
   margin: 10px 0 15px 0;
 `;
