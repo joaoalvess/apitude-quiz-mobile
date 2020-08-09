@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Menu, TextMenu, ViewMenu } from '../../components/Menu/styles'
-import { Container, ImageLogo, Title, Subtitle, PreButton, PosButton } from './styles';
+import { Container, ImageLogo, Title, Subtitle, PreButton, PosButton, TemperaturaMuitoAlta, TemperaturaNormal, TextButtonMenor } from './styles';
 import { TextButton, styles } from '../../components/Button/styles'
 
 import api from '../../services/api'
@@ -22,15 +22,20 @@ const Dashboard: React.FC = ({route}:any) => {
 
   const [temp, setTemp] = useState<number>()
   const [nextDay, setNextDay] = useState('')
+  const [nextUserDay, setNextUserDay] = useState('')
   const [apiNextDay, setApiNextDay] = useState([])
   const [quizNextDay, setQuizNextDay] = useState(false)
+  const [finlizedNextDay, setFinlizedNextDay] = useState(false)
+  const [checkTemp, setCheckTemp] = useState(false)
 
+  const [showQuiz, setShowQuiz] = useState(false)
   const [realizou, setRealizou] = useState('')
   const [preButton, setPreButton] = useState('')
   const [buttonText, setButtonText] = useState('')
+  const [fistName, setFistName] = useState('')
   
-  const {id,nome} = route.params
-  const {finalized, estaApto} = route.params
+  const { id, nome } = route.params
+  const { finalized, estaApto } = route.params
   const { addTemp } = route.params
   const { nextFinalized } = route.params
 
@@ -58,7 +63,14 @@ const Dashboard: React.FC = ({route}:any) => {
     setData(`${date}${month}${year}`)
     setUserDate(`${date}/${month}/${year}`)
     setNextDay(`${diaAtual}${mesAtual}${anoAtual}`)
+    setNextUserDay(`${diaAtual}/${mesAtual}/${anoAtual}`)
   },[date])
+
+  useEffect(() => {
+    const split = nome
+    const name = split.split(" ")
+    setFistName(name[0])
+  },[nome])
 
   useEffect(() => {
     if(data != '') {
@@ -107,46 +119,58 @@ const Dashboard: React.FC = ({route}:any) => {
 
   useEffect(() => {
     if(finalized == true || quizToday == true) {
-      if(nextFinalized == true || quizNextDay == true) {
-        
+      if(temp != 30.2 || addTemp == true) {
+        setCheckTemp(true)
       }
-      else {
-        setRealizou(`Você já realizou seu questionário de sintomas da covid-19 do dia ${userDate}`)
+      if(temp == 30.2) {
+        setRealizou("Você pode adicionar sua temperatura após a medir na entrada!")
+        setCheckTemp(false)
       }
     }
-    else{
+    if(finalized == false || quizToday == false){
         setRealizou(`Você ainda não realizou seu questionário de sintomas da covid-19 do dia ${userDate}`)
     }
-  },[finalized,quizToday,data])
+  },[finalized,quizToday,data,temp,addTemp])
 
   useEffect(() => {
     if(finalized == true || quizToday == true) {
       if(temp != 30.2 || addTemp == true) {
         setButtonText('Histórico')
-        if(estaApto == true || apto == true) {
-          return setPreButton("Você esta apto ao trabalho. Não esqueça de realizar o questionário amanha!")
-        }
-        if(estaApto == false || apto == false){
-          return setPreButton("Você não esta apto ao trabalho. Comunique ao seu gestor!")
-        }
       }
       if(temp == 30.2) {
-        setButtonText('Adicionar Temperatura')
-        setPreButton(`Adicionar a sua temperatura`)
+        setButtonText('Temperatura')
       }
     }
     else {
       setButtonText('Questionário')
       setPreButton("Só será permitida a entrada após o término do questionário!")
     }
-  },[finalized,quizToday,hours,estaApto,apto,temp,addTemp])
+  },[finalized,quizToday,temp,addTemp])
+
+  useEffect(() => {
+    if(quizNextDay == true || nextFinalized == true) {
+      setFinlizedNextDay(true)
+    }
+    else {
+      setFinlizedNextDay(false)
+    }
+  },[apiNextDay,nextFinalized,quizNextDay])
+
+  useEffect(() => {
+    if(finalized == true || quizToday == true) {
+      setShowQuiz(true)
+    }
+    else {
+      setShowQuiz(false)
+    }
+  },[finalized, quizToday])
 
   const navigation = useNavigation()
 
   async function handleNavigateToQuiz() {
     if(finalized == true || quizToday == true) {
       if(temp != 30.2 || addTemp == true) {
-        navigation.navigate('QuizNextDay', {
+        navigation.navigate('Historico', {
           id: id,
           nome: nome
         })
@@ -180,18 +204,50 @@ const Dashboard: React.FC = ({route}:any) => {
     })
   }
 
+  function handleNavigateToQuizNextDay() {
+    navigation.navigate('QuizNextDay', {
+      id: id,
+      nome: nome
+    })
+  }
+
   return (
     <>
       <Container>
         <ImageLogo resizeMode="contain" source={Logo} />
-        <Title>Olá, {nome}</Title>
-        <Subtitle> {realizou} </Subtitle>
-        <PreButton> {preButton} </PreButton>
+        <Title>Olá, {fistName}</Title>
+        {checkTemp ? apto ? 
+          <TemperaturaNormal>
+            Você esta apto ao trabalho no dia {userDate}!
+          </TemperaturaNormal> : 
+          <TemperaturaMuitoAlta>
+            Você não esta apto ao trabalho no dia {userDate}!
+          </TemperaturaMuitoAlta> : 
+          <Subtitle> {realizou} </Subtitle>
+        }
+        { showQuiz ? finlizedNextDay ? 
+          <PreButton>
+            Por favor volte amanhã para realizar seu próximo questionário!
+          </PreButton> : 
+          <PreButton> 
+            Você também pode fazer seu questionário do dia {nextUserDay} 
+          </PreButton> : 
+          <PreButton> {preButton} </PreButton>
+        }
         <RectButton
           style={styles.button}
           onPress={handleNavigateToQuiz}>
           <TextButton> {buttonText} </TextButton>
         </RectButton>
+        { showQuiz ? finlizedNextDay ? 
+        <PosButton>
+          Você só pode adicionar a temperatura do questionário de {nextUserDay} no mesmo dia!
+        </PosButton> :
+        <RectButton
+          style={styles.button}
+          onPress={handleNavigateToQuizNextDay}>
+          <TextButtonMenor>Questionário {nextUserDay} </TextButtonMenor>
+        </RectButton> : null}
         <PosButton>Obrigado pela colaboração!</PosButton>
         <PreButton>Tenha um bom dia!</PreButton>
       </Container>

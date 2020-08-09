@@ -6,18 +6,18 @@ export const Container = styled.View`
   overflow: hidden;
   justify-content: center;
   align-items: center;
+  margin-top: 30px
 `;
 
 export const ImageLogo = styled.Image`
   width: 250px;
-  height: 300px;
-  margin-bottom: -30px
+  margin-bottom: 40px
 `;
 
 export const Title = styled.Text`
   font-family: Roboto_500Medium;
   font-size: 28px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   text-align: center;
 `;
 
@@ -44,4 +44,36 @@ export const PosButton = styled.Text`
   text-align: center;
   margin-bottom: 20px;
   margin-top: 25px
+`;
+
+export const TemperaturaNormal = styled.Text`
+  font-size: 24px;
+  color: #008000;
+  text-align: center;
+  margin-bottom: 30px;
+  text-align: center;
+`;
+
+export const TemperaturaAlta = styled.Text`
+  font-size: 24px;
+  margin-bottom: 50px;
+  color: #FFFF00;
+`;
+
+export const TemperaturaMuitoAlta = styled.Text`
+  font-size: 24px;
+  color: #008000;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #B22222;
+  text-align: center;
+`;
+
+export const TextButtonMenor = styled.Text`
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+  color: #f0f0f5;
+  font-family: Roboto_500Medium;
+  font-size: 18px;
 `;
