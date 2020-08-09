@@ -129,10 +129,10 @@ const Historico: React.FC = ({route}:any) => {
   },[data.temperatura])
 
   useEffect(() => {
-    if(data.temperatura >= 37.8) {
+    if(data.temperatura >= 37.5) {
       setTempMuitoAlta(true)
     }
-    if(data.temperatura < 37.8){
+    if(data.temperatura < 37.5){
       setTempMuitoAlta(false)
     }
   },[data.temperatura])
@@ -141,10 +141,10 @@ const Historico: React.FC = ({route}:any) => {
     <>
       <Container>
         <ImageLogo resizeMode="contain" source={Logo} />
-         { quizToday ? <Title>Questionário de Sintomas {today}</Title> : null}
-         { quizToday ? <Cargo>Colaborador: {nome}</Cargo> : null}
-        { quizToday ? <Scroll>
-          <Pergunta>1. Você teve Covid-19??</Pergunta>
+         { quizToday ? checkTemp ? <Title>Questionário de Sintomas {today}</Title> : null : null}
+         { quizToday ? checkTemp ? <Cargo>Colaborador: {nome}</Cargo> : null : null}
+        { quizToday ? checkTemp ? <Scroll>
+          <Pergunta>1. Você teve Covid-19?</Pergunta>
             {data.infectado ? <Resposta>Sim</Resposta> : <Resposta>Não</Resposta>}
           <Pergunta>
             2. Você apresentou algum dos seguintes sintomas nas últimas 24 horas?
@@ -198,14 +198,14 @@ const Historico: React.FC = ({route}:any) => {
           </Pergunta>
             {data.contato_infectado ? <Resposta>Sim</Resposta> : <Resposta>Não</Resposta>}
           <ViewCenter>
-            { data.apto ? <TemperaturaNormal>Você está apto ao trabalho!</TemperaturaNormal>: <TemperaturaMuitoAlta>Vocé não está apto ao trabalho!</TemperaturaMuitoAlta>}
+            { checkTemp ? <TextTemp>Temperatura:</TextTemp> : null}
           </ViewCenter>
-          { checkTemp ? <ViewCenter>
-            <TextTemp>Temperatura:</TextTemp>
-          </ViewCenter> : null}
           <ViewTemp>
             { checkTemp ? tempAlta ? tempMuitoAlta ? <TemperaturaMuitoAlta>{data.temperatura}</TemperaturaMuitoAlta> : <TemperaturaAlta>{data.temperatura}</TemperaturaAlta> : <TemperaturaNormal>{data.temperatura}</TemperaturaNormal> : null}
           </ViewTemp>
+          <ViewCenter>
+            {checkTemp ?  data.apto ? <TemperaturaNormal>Você esta apto ao trabalho!</TemperaturaNormal>: <TemperaturaMuitoAlta>Você não esta apto ao trabalho!</TemperaturaMuitoAlta> : null }
+          </ViewCenter>
           <ViewCenter>         
             <DatePicker
               style={{width: 200}}
@@ -229,7 +229,23 @@ const Historico: React.FC = ({route}:any) => {
               onDateChange={(date:String) => {setDate(String(date))}}
             />
           </ViewCenter>  
-        </Scroll> : <Title>Você ainda não realizou seu questionário hoje!</Title> }
+        </Scroll> : 
+        <>
+          <Title>
+            Você ainda não adiciono sua temperatura do dia {today}.
+          </Title>
+          <Cargo>
+            Para liberar seu histórico do dia {today}, você precisa adcionar sua temperatura!
+          </Cargo>
+        </> : 
+        <>
+          <Title>
+            Você ainda não realizou seu questionário hoje!
+          </Title>
+          <Cargo>
+            Para liberar seu histórico do dia, por favor preencha seu questionário do dia {today} e adicione sua temperatura!
+          </Cargo>
+        </> }
       </Container>
       <ViewMenu>
       <RectButton
