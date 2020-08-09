@@ -38,11 +38,19 @@ const Login: React.FC = () => {
     await api.get(`userauth?cpf=${selectCpf}&senha=${selectSenha}`)
     .then((response:any) => {
       setLoading(true)
-      console.log(response.data)
-      navigation.navigate('Dashboard', {
-        id: response.data.id,
-        nome: response.data.nome,
-      })
+      if(response.data.senha == response.data.matricula){
+        navigation.navigate('Clean', {
+          id: response.data.id,
+          nome: response.data.nome,
+          senha: response.data.senha
+        })
+      }
+      else {
+        navigation.navigate('Dashboard', {
+          id: response.data.id,
+          nome: response.data.nome,
+        })
+      }
     })
     .catch((response:any) => {
       setLoading(true)

@@ -18,7 +18,7 @@ const Password: React.FC = ({route}:any) => {
   const [newSenha, setNewSenha] = useState<String>('')
   const [confirmNewSenha, setConfirmNewSenha] = useState<String>('')
 
-  const {id, senha} = route.params
+  const {id, senha, nome} = route.params
 
   async function handleSubmit() {
     if(newSenha == confirmNewSenha) {
@@ -31,8 +31,9 @@ const Password: React.FC = ({route}:any) => {
 
         await api.put(`perfil/${id}`, formdata).then(() => {
           alert('Senha alterada!')
-          navigation.navigate('Perfil', {
-            id: id
+          navigation.navigate('Dashboard', {
+            id: id,
+            nome: nome
           })
         }).catch(() => {
           alert('Algo deu errado tente novamente!')
@@ -48,8 +49,9 @@ const Password: React.FC = ({route}:any) => {
   }
 
   function handleNavigateBack() {
-    navigation.navigate('Perfil', {
+    navigation.navigate('Dashboard', {
       id: id,
+      nome: nome
     })
   }
 
