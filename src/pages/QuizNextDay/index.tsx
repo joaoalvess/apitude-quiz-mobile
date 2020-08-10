@@ -39,7 +39,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
   const [selectPaladar, setselectPaladar] = useState<Boolean>(false);
 
   const [estaApto, setEstaApto] = useState<Boolean>(true);
-  const [count, setCount] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
 
   const [nextDay, setNextDay] = useState('')
 
@@ -63,7 +63,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
   }
 
   useEffect(() => {
-    if(selectContato == true || count > 2 ){
+    if(selectContato == true || totalCount > 2 ){
       setEstaApto(false)
 
       if(selectInfectado == true){
@@ -73,7 +73,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
     else {
       setEstaApto(true)
     }
-  },[selectContato,count,day])
+  },[selectContato,totalCount,day])
 
   useEffect(() => {
     setDay(`${diaAtual}/${mesAtual}/${anoAtual}`)
@@ -96,6 +96,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
     const paladar = selectPaladar
     const apto = estaApto
     const temperatura = 30.2
+    const count = totalCount
 
     const formData = {
       data,
@@ -111,19 +112,20 @@ const QuizNextDay: React.FC = ({route}:any) => {
       olfato,
       paladar,
       apto,
-      temperatura
+      temperatura,
+      count
     }
 
     setLoading(false)
     await api.post(`createform/${currentUser}`, formData).then(() => {
       setLoading(true)
-      if(count <= 2 && count > 0 && apto == true){
-        alert(`Você apresentou ${count} sintoma(s) da covid-19 caso sinta mais algum sintoma avise ao seu gestor!`)
+      if(totalCount <= 2 && totalCount > 0 && apto == true){
+        alert(`Você apresentou ${totalCount} sintoma(s) da covid-19 caso sinta mais algum sintoma avise ao seu gestor!`)
       }
       if(apto == false){
         alert(`Você não esta apto ao trabalho no dia ${day} entre em contato com o seu gestor!`)
       }
-      if(apto == true && count == 0){
+      if(apto == true && totalCount == 0){
         alert(`Formulario enviado do dia ${day} enviado, você só podera adicionar a temperatura no dia ${day}!`)
       }
       navigation.navigate('Dashboard', {
@@ -202,10 +204,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setSelectFebre(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
@@ -247,10 +249,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setCalafrios(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
@@ -294,10 +296,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setAr(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
@@ -339,10 +341,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setSelectCabeça(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
@@ -383,10 +385,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setSelectGarganta(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
@@ -428,10 +430,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setSelectTosse(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
@@ -471,10 +473,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setSelectOlfato(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
@@ -516,10 +518,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setselectPaladar(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
@@ -559,10 +561,10 @@ const QuizNextDay: React.FC = ({route}:any) => {
               ]}
               onValueChange={(value: Boolean) => {setSelectCorpo(value)
                 if(value == true){
-                  setCount(count + 1)
+                  setTotalCount(totalCount + 1)
                 }
                 if(value == false) {
-                  setCount(count - 1)
+                  setTotalCount(totalCount - 1)
                 }              
               }}
               style={{
