@@ -6,6 +6,15 @@ export const Container = styled.View`
   align-items: center;
 `;
 
+export const Scroll = styled.ScrollView`
+
+`;
+
+export const ViewCenter = styled.View`
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ImageLogo = styled.Image`
   width: 250px;
   height: 300px;

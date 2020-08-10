@@ -77,3 +77,12 @@ export const TextButtonMenor = styled.Text`
   font-family: Roboto_500Medium;
   font-size: 18px;
 `;
+
+export const ViewCenter = styled.View`
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Scroll = styled.ScrollView`
+
+`;

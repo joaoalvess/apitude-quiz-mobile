@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppLoading } from 'expo'
 import { Platform } from 'react-native'
-import { Container, ImageLogo, Title } from './styles';
+import { Container, ImageLogo, Title, Scroll, ViewCenter } from './styles';
 import { styles, TextButton } from '../../components/Button/styles'
 import { Form, Label, Input } from '../../components/Input/styles'
 import Logo from '../../assets/logo.png'
@@ -65,7 +65,10 @@ const Login: React.FC = () => {
 
   return (
     <Container>
-      <ImageLogo resizeMode="contain" source={Logo} />
+      <Scroll>
+      <ViewCenter>
+        <ImageLogo resizeMode="contain" source={Logo} />
+      </ViewCenter>
       <Title>Questionário Diário de Sintomas</Title>
       <Form enabled={Platform.OS === 'ios'} behavior="padding">
         <Label>CPF</Label>
@@ -87,12 +90,15 @@ const Login: React.FC = () => {
           onChangeText={(value:String) => setSelectSenha(value)}
         />
       </Form>
-      <RectButton 
-        style={styles.button}
-        onPress={handleNavigateToDashboard}
-      >
-        <TextButton>Entrar</TextButton>
-      </RectButton>
+      <ViewCenter>
+        <RectButton 
+          style={styles.button}
+          onPress={handleNavigateToDashboard}
+        >
+          <TextButton>Entrar</TextButton>
+        </RectButton>
+      </ViewCenter>
+      </Scroll>
     </Container>
   );
 }

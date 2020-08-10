@@ -44,3 +44,8 @@ export const TextButton = styled.Text`
   font-family: Roboto_500Medium;
   font-size: 22px;
 `;
+
+export const ViewCenterButton = styled.View`
+  justify-content: center;
+  align-items: center;
+`;

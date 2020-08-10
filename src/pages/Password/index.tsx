@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native'
-import { Container, Title, ImageLogo, Form } from './styles';
+import { Container, Title, ImageLogo, Form, ViewCenter, Scroll } from './styles';
 import { TextButton, styles } from '../../components/Button/styles'
 import { returnButton } from '../../components/ReturnButton/styles'
 import { Input, Label } from '../../components/Input/styles'
@@ -62,7 +62,10 @@ const Password: React.FC = ({route}:any) => {
           <ReturnIcon name="left" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <ImageLogo resizeMode="contain" source={Logo} />
+      <Scroll>
+      <ViewCenter>
+        <ImageLogo resizeMode="contain" source={Logo} />
+      </ViewCenter>
       <Title>Trocar sua senha</Title>
       <Form>
         <Label>Sua senha antiga</Label>
@@ -99,6 +102,7 @@ const Password: React.FC = ({route}:any) => {
       >
         <TextButton>Alterar</TextButton>
       </RectButton>
+      </Scroll>
     </Container>
   );
 }
