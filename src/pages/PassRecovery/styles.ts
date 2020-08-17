@@ -4,6 +4,7 @@ export const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  margin-top: 30px
 `;
 
 export const ImageLogo = styled.Image`
@@ -20,9 +21,11 @@ export const Title = styled.Text`
   margin-top: -60px
 `;
 
-export const PassRecover = styled.Button`
+export const ViewCenter = styled.View`
+  justify-content: center;
+  align-items: center;
 `;
 
-export const ViewCenter = styled.View`
-  align-self: flex-start
+export const Scroll = styled.ScrollView`
+  
 `;

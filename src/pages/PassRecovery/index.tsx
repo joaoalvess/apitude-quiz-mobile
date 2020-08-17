@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppLoading } from 'expo'
 import { Platform } from 'react-native'
-import { Container, ImageLogo, Title, PassRecover, ViewCenter } from './styles';
+import { Container, ImageLogo, Title, Scroll, ViewCenter } from './styles';
 import { styles, TextButton } from '../../components/Button/styles'
 import { Form, Label, Input } from '../../components/Input/styles'
 import Logo from '../../assets/logo.png'
@@ -20,29 +20,27 @@ const PassRecovery: React.FC = () => {
 
   const navigation = useNavigation()
 
-  async function handleNavigateToDashboard() {
+  async function handleResetPass() {
+    const email = selectEmail
+    const cpf = selectCpf
+
+    const formData = {
+      cpf,
+      email
+    }
+
     setLoading(false)
-    await api.get('userauth')
+    await api.get('send', formData, {
+      headers: { "Content-Type": "application/json" }
+    })
     .then((response:any) => {
       setLoading(true)
-      if(response.data.senha == response.data.matricula){
-        navigation.navigate('Clean', {
-          id: response.data.id,
-          nome: response.data.nome,
-          senha: response.data.senha
-        })
-      }
-      else {
-        navigation.navigate('Dashboard', {
-          id: response.data.id,
-          nome: response.data.nome,
-        })
-      }
+      console.log(response.data)
     })
     .catch((response:any) => {
       setLoading(true)
+      alert("Usuario não encontrado")
       console.log(response)
-      alert("Email ou senha incorretos")
     })
   }
 
@@ -52,7 +50,10 @@ const PassRecovery: React.FC = () => {
 
   return (
     <Container>
-      <ImageLogo resizeMode="contain" source={Logo} />
+      <Scroll>
+        <ViewCenter>
+          <ImageLogo resizeMode="contain" source={Logo} />
+        </ViewCenter>
       <Title>Recuperação de Senha</Title>
       <Form enabled={Platform.OS === 'ios'} behavior="padding">
         <Label>CPF</Label>
@@ -75,10 +76,11 @@ const PassRecovery: React.FC = () => {
       </Form>
       <RectButton 
         style={styles.button}
-        onPress={handleNavigateToDashboard}
+        onPress={handleResetPass}
       >
         <TextButton>Enviar</TextButton>
       </RectButton>
+      </Scroll>
     </Container>
   );
 }
