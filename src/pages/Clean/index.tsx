@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { Container, Image, Scroll, ImageLogo, Title, SubTitle } from './styles';
+import { Container, Image, Scroll, ImageLogo, Title, SubTitle, ViewCenter } from './styles';
 import Logo from '../../assets/logo.png'
 
 import { TextButton, styles } from '../../components/Button/styles'
@@ -39,9 +39,13 @@ const Clean: React.FC = ({route}:any) => {
 
   return (
     <Container>
-      <ImageLogo resizeMode="contain" source={Logo} />
+      <Scroll>
+      <ViewCenter>
+        <ImageLogo resizeMode="contain" source={Logo} />
+      </ViewCenter>
       <Title>Higienização e Detetização</Title>
       <SubTitle>Para segurança dos nossos colaboradores todos os ambientes foram higienizados!</SubTitle>
+      </Scroll>
       <Scroll
         pagingEnabled 
         horizontal
@@ -56,11 +60,13 @@ const Clean: React.FC = ({route}:any) => {
           />
         ))}
       </Scroll>
+      <Scroll>
       <RectButton
         style={styles.button}
         onPress={handleNavigateToPassword}>
         <TextButton> Continuar </TextButton>
       </RectButton>
+      </Scroll>
     </Container>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Menu, TextMenu, ViewMenu } from '../../components/Menu/styles'
-import { Container, ImageLogo, Title, Subtitle, PreButton, PosButton, TemperaturaMuitoAlta, TemperaturaNormal, TextButtonMenor } from './styles';
+import { Container, ImageLogo, Title, Subtitle, PreButton, PosButton, TemperaturaMuitoAlta, TemperaturaNormal, TextButtonMenor, Scroll, ViewCenter } from './styles';
 import { TextButton, styles } from '../../components/Button/styles'
 
 import api from '../../services/api'
@@ -214,7 +214,10 @@ const Dashboard: React.FC = ({route}:any) => {
   return (
     <>
       <Container>
-        <ImageLogo resizeMode="contain" source={Logo} />
+        <Scroll>
+        <ViewCenter>
+          <ImageLogo resizeMode="contain" source={Logo} />
+        </ViewCenter>
         <Title>Olá, {fistName}</Title>
         { apto != false ? checkTemp ? 
           <TemperaturaNormal>
@@ -234,22 +237,27 @@ const Dashboard: React.FC = ({route}:any) => {
           </PreButton> : 
           <PreButton> {preButton} </PreButton>
         }
-        <RectButton
-          style={styles.button}
-          onPress={handleNavigateToQuiz}>
-          <TextButton> {buttonText} </TextButton>
-        </RectButton>
-        { showQuiz ? finlizedNextDay ? 
-        <PosButton>
-          Você só pode adicionar a temperatura do questionário de {nextUserDay} no mesmo dia!
-        </PosButton> :
-        <RectButton
-          style={styles.button}
-          onPress={handleNavigateToQuizNextDay}>
-          <TextButtonMenor>Questionário {nextUserDay} </TextButtonMenor>
-        </RectButton> : null}
+        <ViewCenter>
+          <RectButton
+            style={styles.button}
+            onPress={handleNavigateToQuiz}>
+            <TextButton> {buttonText} </TextButton>
+          </RectButton>
+        </ViewCenter>
+        <ViewCenter>
+          { showQuiz ? finlizedNextDay ? 
+          <PosButton>
+            Você só pode adicionar a temperatura do questionário de {nextUserDay} no mesmo dia!
+          </PosButton> :
+          <RectButton
+            style={styles.button}
+            onPress={handleNavigateToQuizNextDay}>
+            <TextButtonMenor>Questionário {nextUserDay} </TextButtonMenor>
+          </RectButton> : null}
+        </ViewCenter>
         <PosButton>Obrigado pela colaboração!</PosButton>
         <PreButton>Tenha um bom dia!</PreButton>
+        </Scroll>
       </Container>
       <ViewMenu>
         <RectButton

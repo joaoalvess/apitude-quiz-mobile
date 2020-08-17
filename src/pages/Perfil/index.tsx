@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Container, ImageLogo, Title, Photo, SubTitle, Email, Matricula } from './styles';
+import { Container, ImageLogo, Title, Photo, SubTitle, Email, Matricula, ViewCenter, Scroll } from './styles';
 import { Menu, TextMenu, ViewMenu } from '../../components/Menu/styles'
 import { TextButton, styles } from '../../components/Button/styles'
 
@@ -134,7 +134,10 @@ const Perfil: React.FC = ({route}:any) => {
   return (
     <>
       <Container>
+        <Scroll>
+        <ViewCenter>
         <ImageLogo resizeMode="contain" source={Logo} />
+        </ViewCenter>
         { vazio ? <TouchableOpacity 
           onPress={openImagePickerAsync}
         >
@@ -144,6 +147,7 @@ const Perfil: React.FC = ({route}:any) => {
         <Email>{data.email}</Email>
         <SubTitle>CPF: {data.cpf}</SubTitle>
         <Matricula>Matricula: {data.matricula} </Matricula>
+        <ViewCenter>
         <RectButton
           style={styles.button}
           onPress={handleNavigateToPassword}
@@ -156,6 +160,8 @@ const Perfil: React.FC = ({route}:any) => {
         >
           <TextButton>Sair</TextButton>
         </RectButton>
+        </ViewCenter>
+        </Scroll>
       </Container>
       <ViewMenu>
       <RectButton

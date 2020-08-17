@@ -12,6 +12,11 @@ export const Image = styled.Image`
 
 `;
 
+export const ViewCenter = styled.View`
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Scroll = styled.ScrollView`
 
 `;
