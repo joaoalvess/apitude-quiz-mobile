@@ -85,7 +85,7 @@ const Dashboard: React.FC = ({route}:any) => {
         console.log('erro')
       })
     }
-  },[data,id,estaApto,addTemp])
+  },[data,id,estaApto,addTemp,hours])
 
   useEffect(() => {
     if(nextDay != '') {
@@ -97,7 +97,7 @@ const Dashboard: React.FC = ({route}:any) => {
         console.log('erro')
       })
     }
-  },[nextDay,id])
+  },[nextDay,id,hours])
 
   useEffect(() => {
     if(apiRes == null || apiRes.length == 0){
@@ -216,14 +216,14 @@ const Dashboard: React.FC = ({route}:any) => {
       <Container>
         <ImageLogo resizeMode="contain" source={Logo} />
         <Title>Olá, {fistName}</Title>
-        {checkTemp ? apto ? 
+        { apto != false ? checkTemp ? 
           <TemperaturaNormal>
             Você esta apto ao trabalho no dia {userDate}!
           </TemperaturaNormal> : 
+          <Subtitle> {realizou} </Subtitle> : 
           <TemperaturaMuitoAlta>
             Você não esta apto ao trabalho no dia {userDate}!
-          </TemperaturaMuitoAlta> : 
-          <Subtitle> {realizou} </Subtitle>
+          </TemperaturaMuitoAlta>
         }
         { showQuiz ? finlizedNextDay ? 
           <PreButton>

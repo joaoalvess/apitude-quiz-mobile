@@ -12,30 +12,17 @@ import * as Updates from 'expo-updates';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
-const Login: React.FC = () => {
+const PassRecovery: React.FC = () => {
   const [selectCpf, setSelectCpf] = useState<String>('')
-  const [selectSenha, setSelectSenha] = useState<String>('')
+  const [selectEmail, setSelectEmail] = useState<String>('')
   const [user, setUser] = useState([])
   const [loading, setLoading] = useState<Boolean>(true)
 
   const navigation = useNavigation()
 
-  useEffect(() => {
-    async function updateApp() {
-      const {isAvailable} = await Updates.checkForUpdateAsync()
-
-      if(isAvailable) {
-        await Updates.fetchUpdateAsync()
-        await Updates.reloadAsync()
-      }
-    }
-
-    updateApp()
-  },[])
-
   async function handleNavigateToDashboard() {
     setLoading(false)
-    await api.get(`userauth?cpf=${selectCpf}&senha=${selectSenha}`)
+    await api.get('userauth')
     .then((response:any) => {
       setLoading(true)
       if(response.data.senha == response.data.matricula){
@@ -63,14 +50,10 @@ const Login: React.FC = () => {
     return <AppLoading />
   }
 
-  function recovery() {
-    navigation.navigate('PassRecovery')
-  }
-
   return (
     <Container>
       <ImageLogo resizeMode="contain" source={Logo} />
-      <Title>Questionário Diário de Sintomas</Title>
+      <Title>Recuperação de Senha</Title>
       <Form enabled={Platform.OS === 'ios'} behavior="padding">
         <Label>CPF</Label>
         <Input           
@@ -81,30 +64,23 @@ const Login: React.FC = () => {
           value={String(selectCpf)}
           onChangeText={(value:String) => setSelectCpf(value)}
         />
-        <Label>Senha</Label>
+        <Label>Email</Label>
         <Input           
-          placeholder="sua senha"
+          placeholder="seu email"
           autoCapitalize="none"
           autoCorrect={false}
-          secureTextEntry={true}
-          value={String(selectSenha)}
-          onChangeText={(value:String) => setSelectSenha(value)}
+          value={String(selectEmail)}
+          onChangeText={(value:String) => setSelectEmail(value)}
         />
-        <ViewCenter>
-          <PassRecover 
-            title={"Esqueci minha senha"}
-            onPress={recovery} 
-          />
-        </ViewCenter>
       </Form>
       <RectButton 
         style={styles.button}
         onPress={handleNavigateToDashboard}
       >
-        <TextButton>Entrar</TextButton>
+        <TextButton>Enviar</TextButton>
       </RectButton>
     </Container>
   );
 }
 
-export default Login;
+export default PassRecovery;

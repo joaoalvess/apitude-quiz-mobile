@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './pages/Login'
+import PassRecovery from './pages/PassRecovery'
 import Dashboard from './pages/Dashboard'
 import Historico from './pages/Historico'
 import Perfil from './pages/Perfil'
@@ -26,6 +27,7 @@ const Routes: React.FC = () => {
         }}
       >
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="PassRecovery" component={PassRecovery} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="Historico" component={Historico} />
         <Stack.Screen name="Perfil" component={Perfil} />

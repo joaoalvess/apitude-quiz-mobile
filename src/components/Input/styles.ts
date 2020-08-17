@@ -23,6 +23,6 @@ export const Label = styled.Text`
 export const Form = styled.KeyboardAvoidingView`
   align-self: stretch;
   padding-left: 15%;
-  margin-bottom: 80px;
+  margin-bottom: 50px;
   margin-top: 20px
 `;
