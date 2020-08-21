@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View } from 'react-native';
 import { Menu, TextMenu, ViewMenu } from '../../components/Menu/styles'
 import { Container, ImageLogo, Title, Subtitle, PreButton, PosButton, TemperaturaMuitoAlta, TemperaturaNormal, TextButtonMenor, Scroll, ViewCenter } from './styles';
 import { TextButton, styles } from '../../components/Button/styles'
+import AuthContext from '../../Contexts/auth';
+import Logo from '../../assets/logo.png'
 
 import api from '../../services/api'
-import routes from '../../routes'
-
-import Logo from '../../assets/logo.png'
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { AppLoading } from 'expo';
+import * as Updates from 'expo-updates'
 
 const Dashboard: React.FC = ({route}:any) => {
   const [data, setData] = useState('')
@@ -27,6 +28,7 @@ const Dashboard: React.FC = ({route}:any) => {
   const [quizNextDay, setQuizNextDay] = useState(false)
   const [finlizedNextDay, setFinlizedNextDay] = useState(false)
   const [checkTemp, setCheckTemp] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [showQuiz, setShowQuiz] = useState(false)
   const [realizou, setRealizou] = useState('')
@@ -34,10 +36,28 @@ const Dashboard: React.FC = ({route}:any) => {
   const [buttonText, setButtonText] = useState('')
   const [fistName, setFistName] = useState('')
   
-  const { id, nome } = route.params
   const { finalized, estaApto } = route.params
   const { addTemp } = route.params
   const { nextFinalized } = route.params
+
+  const { user } = useContext(AuthContext)
+
+  const id = user?.id
+  const nome = user?.nome
+
+  useEffect(() => {
+    async function updateApp() {
+      const { isAvailable } = await Updates.checkForUpdateAsync()
+
+      if(isAvailable) {
+        await Updates.fetchUpdateAsync()
+
+        await Updates.reloadAsync()
+      }
+    } 
+
+    updateApp()
+  },[])
 
   var hours = new Date().getHours();
   var date = new Date().getDate();
@@ -68,7 +88,7 @@ const Dashboard: React.FC = ({route}:any) => {
 
   useEffect(() => {
     const split = nome
-    const name = split.split(" ")
+    const name = split!.split(" ")
     setFistName(name[0])
   },[nome])
 
@@ -80,9 +100,11 @@ const Dashboard: React.FC = ({route}:any) => {
         setFormId(response.data.id)
         setTemp(response.data.temperatura)
         setApto(response.data.apto)
+        setLoading(true)
       })
       .catch(()=>{
         console.log('erro')
+        setLoading(true)
       })
     }
   },[data,id,estaApto,addTemp,hours])
@@ -211,6 +233,10 @@ const Dashboard: React.FC = ({route}:any) => {
     })
   }
 
+  if(!loading) {
+    return <AppLoading />
+  }
+
   return (
     <>
       <Container>
@@ -228,7 +254,7 @@ const Dashboard: React.FC = ({route}:any) => {
             Você não esta apto ao trabalho no dia {userDate}!
           </TemperaturaMuitoAlta>
         }
-        { showQuiz ? finlizedNextDay ? 
+        { hours >= 18 ? finlizedNextDay ? 
           <PreButton>
             Por favor volte amanhã para realizar seu próximo questionário!
           </PreButton> : 
@@ -245,7 +271,7 @@ const Dashboard: React.FC = ({route}:any) => {
           </RectButton>
         </ViewCenter>
         <ViewCenter>
-          { showQuiz ? finlizedNextDay ? 
+          { hours >= 18 ? finlizedNextDay ? 
           <PosButton>
             Você só pode adicionar a temperatura do questionário de {nextUserDay} no mesmo dia!
           </PosButton> :

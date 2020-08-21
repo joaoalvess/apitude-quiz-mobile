@@ -37,6 +37,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
   const [selectCorpo, setSelectCorpo] = useState<Boolean>(false);
   const [selectOlfato, setSelectOlfato] = useState<Boolean>(false);
   const [selectPaladar, setselectPaladar] = useState<Boolean>(false);
+  const [selectTemperatura, setSelectTemperatura] = useState(30.2);
 
   const [estaApto, setEstaApto] = useState<Boolean>(true);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -95,7 +96,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
     const olfato = selectOlfato
     const paladar = selectPaladar
     const apto = estaApto
-    const temperatura = 30.2
+    const temperatura = selectTemperatura
     const count = totalCount
 
     const formData = {
@@ -141,6 +142,20 @@ const QuizNextDay: React.FC = ({route}:any) => {
 
   if(!loading){
     return <AppLoading />
+  }
+
+  function aumentaTemperatura() {
+    const tempAumentado:any = selectTemperatura + 0.1
+    const newTemp = parseFloat(tempAumentado.toFixed(2))
+
+    return setSelectTemperatura(newTemp)
+  }
+
+  function diminueTemperatura() {
+    const tempDiminuido:any = selectTemperatura - 0.1
+    const newTemp = parseFloat(tempDiminuido.toFixed(2))
+
+    return setSelectTemperatura(newTemp)
   }
 
   return (
@@ -205,10 +220,12 @@ const QuizNextDay: React.FC = ({route}:any) => {
               onValueChange={(value: Boolean) => {setSelectFebre(value)
                 if(value == true){
                   setTotalCount(totalCount + 1)
+                  setSelectTemperatura(37.5)
                 }
                 if(value == false) {
                   setTotalCount(totalCount - 1)
-                }              
+                  setSelectTemperatura(30.2)
+                }            
               }}
               style={{
                 inputAndroid: {
@@ -630,6 +647,25 @@ const QuizNextDay: React.FC = ({route}:any) => {
           return <Chevron size={1.5} color="gray" />;
         }}
       />
+      { selectTemperatura != 30.2 ? 
+        <ViewCenter>
+          <TextTemp>Temperatura:</TextTemp>
+        </ViewCenter> : null
+      }
+      {selectTemperatura != 30.2 ? 
+        <ViewTemp>
+          { selectTemperatura != 37.5 ? 
+            <TouchableOpacity onPress={diminueTemperatura} >
+              <AntDesign name="minuscircleo" size={30} color="black" />
+            </TouchableOpacity>: null
+          }
+          <TemperaturaMuitoAlta>{selectTemperatura}</TemperaturaMuitoAlta>
+          <TouchableOpacity onPress={aumentaTemperatura} >
+            <AntDesign name="pluscircleo" size={30} color="black" />
+          </TouchableOpacity>
+        </ViewTemp>
+        : null
+      }
       <ViewTemp>
       { estaApto ? null: <TemperaturaMuitoAlta>Vocé não está apto ao trabalho!</TemperaturaMuitoAlta>}
       </ViewTemp>

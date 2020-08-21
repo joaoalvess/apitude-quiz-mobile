@@ -15,25 +15,30 @@ const AppStack = createStackNavigator()
 
 const AppRoutes: React.FC = () => {
   return (
-    <NavigationContainer>
-      <AppStack.Navigator 
-        headerMode="none" 
-        screenOptions={{
-          cardStyle: {
-            backgroundColor: '#f0f0f5' 
-          }
-        }}
-      >
-        <AppStack.Screen name="Dashboard" component={Dashboard} />
-        <AppStack.Screen name="Historico" component={Historico} />
-        <AppStack.Screen name="Perfil" component={Perfil} />
-        <AppStack.Screen name="Clean" component={Clean} />
-        <AppStack.Screen name="Password" component={Password} />
-        <AppStack.Screen name="Quiz" component={Quiz} />
-        <AppStack.Screen name="QuizNextDay" component={QuizNextDay} />
-        <AppStack.Screen name="Temperatura" component={Temperatura} />
-      </AppStack.Navigator>
-    </NavigationContainer>
+    <AppStack.Navigator 
+      headerMode="none" 
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: '#f0f0f5' 
+        }
+      }}
+    >
+      <AppStack.Screen name="Dashboard" component={Dashboard}         
+        initialParams={{ 
+          finalized: undefined, 
+          estaApto: undefined,
+          addTemp: undefined,
+          nextFinalized: undefined
+        }}  
+      />
+      <AppStack.Screen name="Historico" component={Historico} />
+      <AppStack.Screen name="Perfil" component={Perfil} />
+      <AppStack.Screen name="Clean" component={Clean} />
+      <AppStack.Screen name="Password" component={Password} />
+      <AppStack.Screen name="Quiz" component={Quiz} />
+      <AppStack.Screen name="QuizNextDay" component={QuizNextDay} />
+      <AppStack.Screen name="Temperatura" component={Temperatura} />
+    </AppStack.Navigator>
   )}
 
 export default AppRoutes
