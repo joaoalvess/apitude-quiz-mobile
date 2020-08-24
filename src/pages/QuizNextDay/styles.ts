@@ -77,6 +77,7 @@ export const TemperaturaMuitoAlta = styled.Text`
   margin-left: 30px;
   margin-right: 30px;
   color: #B22222;
+  text-align: center;
 `;
 
 export const Pergunta = styled.Text`

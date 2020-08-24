@@ -64,17 +64,22 @@ const QuizNextDay: React.FC = ({route}:any) => {
   }
 
   useEffect(() => {
-    if(selectContato == true || totalCount > 2 ){
+    if(selectTemperatura >= 37.5 || selectContato == true || totalCount > 2 ){
       setEstaApto(false)
 
       if(selectInfectado == true){
-        setEstaApto(true)
+        if(selectTemperatura >= 37.5) {
+          setEstaApto(false)
+        }
+        else{
+          setEstaApto(true)
+        }
       }
     }
     else {
       setEstaApto(true)
     }
-  },[selectContato,totalCount,day])
+  },[selectInfectado,selectContato,totalCount,day,selectTemperatura])
 
   useEffect(() => {
     setDay(`${diaAtual}/${mesAtual}/${anoAtual}`)
@@ -611,7 +616,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
               }}
             />
       </LastForm>
-      <Pergunta>3. Você teve contato próximo com alguma pessoa testada positiva para COVID-19 nos últimos 14 dias?</Pergunta>
+      <Pergunta>3. Você coabita com alguma pessoa que foi testada positiva para COVID-19 nos últimos 14 dias?</Pergunta>
       <RNPickerSelect
         items={[
           { label: 'Sim', value: true },
@@ -654,12 +659,14 @@ const QuizNextDay: React.FC = ({route}:any) => {
       }
       {selectTemperatura != 30.2 ? 
         <ViewTemp>
-          { selectTemperatura != 37.5 ? 
-            <TouchableOpacity onPress={diminueTemperatura} >
-              <AntDesign name="minuscircleo" size={30} color="black" />
-            </TouchableOpacity>: null
+          <TouchableOpacity onPress={diminueTemperatura} >
+            <AntDesign name="minuscircleo" size={30} color="black" />
+          </TouchableOpacity>
+          { selectTemperatura >= 37.2 ? selectTemperatura >= 37.5 ?
+            <TemperaturaMuitoAlta>{selectTemperatura}</TemperaturaMuitoAlta>:
+            <TemperaturaAlta> {selectTemperatura} </TemperaturaAlta>:
+            <TemperaturaNormal> {selectTemperatura} </TemperaturaNormal>
           }
-          <TemperaturaMuitoAlta>{selectTemperatura}</TemperaturaMuitoAlta>
           <TouchableOpacity onPress={aumentaTemperatura} >
             <AntDesign name="pluscircleo" size={30} color="black" />
           </TouchableOpacity>
@@ -667,7 +674,7 @@ const QuizNextDay: React.FC = ({route}:any) => {
         : null
       }
       <ViewTemp>
-      { estaApto ? null: <TemperaturaMuitoAlta>Vocé não está apto ao trabalho!</TemperaturaMuitoAlta>}
+      { estaApto ? null: <TemperaturaMuitoAlta>Vocé não está apto ao trabalho, entre em contato com o seu gestor!</TemperaturaMuitoAlta>}
       </ViewTemp>
       <ViewCenter>
         <RectButton

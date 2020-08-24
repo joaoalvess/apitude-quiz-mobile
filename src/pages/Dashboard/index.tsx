@@ -247,11 +247,11 @@ const Dashboard: React.FC = ({route}:any) => {
         <Title>Olá, {fistName}</Title>
         { apto != false ? checkTemp ? 
           <TemperaturaNormal>
-            Você esta apto ao trabalho no dia {userDate}!
+            Você está apto ao trabalho no dia {userDate}!
           </TemperaturaNormal> : 
           <Subtitle> {realizou} </Subtitle> : 
           <TemperaturaMuitoAlta>
-            Você não esta apto ao trabalho no dia {userDate}!
+            Você não está apto ao trabalho no dia {userDate}!
           </TemperaturaMuitoAlta>
         }
         { hours >= 18 ? finlizedNextDay ? 

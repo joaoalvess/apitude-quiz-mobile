@@ -194,7 +194,7 @@ const Historico: React.FC = ({route}:any) => {
             {data.paladar ? <Resposta>Sim</Resposta> : <Resposta>Não</Resposta>}
           </LastForm>
           <Pergunta>
-            3. Você teve contato próximo com alguma pessoa testada positiva para COVID-19 nos últimos 14 dias?
+            3. Você coabita com alguma pessoa que foi testada positiva para COVID-19 nos últimos 14 dias?
           </Pergunta>
             {data.contato_infectado ? <Resposta>Sim</Resposta> : <Resposta>Não</Resposta>}
           <ViewCenter>
@@ -204,7 +204,7 @@ const Historico: React.FC = ({route}:any) => {
             { checkTemp ? tempAlta ? tempMuitoAlta ? <TemperaturaMuitoAlta>{data.temperatura}</TemperaturaMuitoAlta> : <TemperaturaAlta>{data.temperatura}</TemperaturaAlta> : <TemperaturaNormal>{data.temperatura}</TemperaturaNormal> : null}
           </ViewTemp>
           <ViewCenter>
-            {checkTemp ?  data.apto ? <TemperaturaNormal>Você esta apto ao trabalho!</TemperaturaNormal>: <TemperaturaMuitoAlta>Você não esta apto ao trabalho!</TemperaturaMuitoAlta> : null }
+            {checkTemp ?  data.apto ? <TemperaturaNormal>Você está apto ao trabalho!</TemperaturaNormal>: <TemperaturaMuitoAlta>Você não está apto ao trabalho, entre em contato com o seu gestor!</TemperaturaMuitoAlta> : null }
           </ViewCenter>
           <ViewCenter>         
             <DatePicker
