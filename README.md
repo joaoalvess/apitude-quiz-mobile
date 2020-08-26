@@ -4,7 +4,7 @@
 </h1>
 
 <h4 align="center">
-    Aircnc (Coffee & Code) to booking spots for developers using React, React Native, Node.js, and more.
+    🏥 Symptom questionnaire for the prevention of covid-19, monitors the symptoms of employees helping to prevent contamination!
 </h4>
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/joaoalvess/apitude-quiz-mobile.svg">
