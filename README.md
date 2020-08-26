@@ -34,7 +34,7 @@
 
 <p align="center">
   <img alt="App Demo" src="https://media1.tenor.com/images/cf94b5fe09a0122e0b9eea8ac858f501/tenor.gif?itemid=18245005" width="400" height="600">
-  <img alt="App Demo" src="https://media.giphy.com/media/gjCJaIVVPQEFI9KhZU/giphy.gif" width="400" height="600">
+  <img alt="App Demo" src="https://media.giphy.com/media/gjCJaIVVPQEFI9KhZU/giphy.gif">
 </p>
 
 ## :rocket: Technologies
